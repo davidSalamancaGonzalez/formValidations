@@ -47,8 +47,9 @@
                 <div class="col-sm-9">
                     <input type="password"
                             class="form-control"
-                            placeholder="Password">
-               
+                            placeholder="Password"
+                            formControlName="password">
+                            <span class="form-text text-danger" *ngIf="this.notvalid('password')">Password not valid</span>
                 </div>
             </div>
 
@@ -58,15 +59,17 @@
                 <div class="col-sm-9">
                     <input type="password"
                             class="form-control"
-                            placeholder="Confirm Password">
-               
+                            placeholder="Confirm Password"
+                            formControlName="password2">
+                            <span class="form-text text-danger" *ngIf="this.notvalid('password2')">No pass match</span>
                 </div>
             </div>
 
 
             <div class="row">
                 <div class="col">
-                    <button type="submit" class="btn btn-primary float-end">Create</button>
+                    <button type="submit" class="btn btn-primary float-end"
+                    [disabled]="miForm.pending">Create</button>
                 </div>
             </div>
 
@@ -76,5 +79,7 @@
 
 
 <h2>Form valid : {{miForm.valid}}</h2>
-<h2>{{miForm.controls['name'].errors|json}}</h2>
-<h2>{{miForm.controls['username'].errors|json}}</h2>
+<h2>Form errors:</h2>
+<h2>status: {{miForm.status}}</h2>
+<pre>{{miForm.errors|json}}</pre>
+<pre>{{miForm.controls['email'].errors|json}}</pre>

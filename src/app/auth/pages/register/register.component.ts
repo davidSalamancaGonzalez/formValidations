@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { EmailValidatorService } from 'src/app/shared/validations/email-validator.service';
+import { ValidatorService } from 'src/app/shared/validations/validator.service';
 
 @Component({
   selector: 'app-register',
@@ -8,28 +10,21 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 })
 export class RegisterComponent implements OnInit {
 
-  // temp
-  nameSurn :string = '([a-zA-Z]+) ([a-zA-Z]+)'
-  emailPattern: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
 
-  noRepeat(control : FormControl){
-    const value : string = control.value?.trim().toLowerCase();
-    if(value === "repeat"){
-      return {
-        noRepeat : true
-      }
-    }
-    return null
-    console.log(value);
-  }
 
   miForm : FormGroup = this.fb.group({
-    name:  ['', [Validators.required, Validators.pattern(this.nameSurn)]],
-    email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
-    username: ['', [Validators.required, this.noRepeat]],
+    name:  ['', [Validators.required, Validators.pattern(this.validator.nameSurn)]],
+    email: ['', [Validators.required, Validators.pattern(this.validator.emailPattern)], [this.ev]],
+    username: ['',  [ Validators.required, this.validator.noRepeat]],
+    password: ['',  [ Validators.required, Validators.minLength(6)]],
+    password2: ['', [ Validators.required, ]],
+  }, {
+    validators : [ this.validator.passRepeat('password', 'password2')]
   })
 
-  constructor( private fb : FormBuilder) { }
+  constructor( private fb : FormBuilder,
+               private validator : ValidatorService,
+               private ev: EmailValidatorService) { }
 
   ngOnInit(): void {
     this.miForm.reset({
