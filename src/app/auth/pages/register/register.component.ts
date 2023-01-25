@@ -22,6 +22,21 @@ export class RegisterComponent implements OnInit {
     validators : [ this.validator.passRepeat('password', 'password2')]
   })
 
+  get emailErrorMsg(){
+
+    const errors = this.miForm.get('email')?.errors
+    
+    if(errors?.['required']){
+      return 'Email required'
+    } else if (errors?.['pattern']){
+        return 'Email not valid'
+      } else if (errors?.['email']){
+        return 'Email already used'
+      }
+   
+      return ''
+  }
+
   constructor( private fb : FormBuilder,
                private validator : ValidatorService,
                private ev: EmailValidatorService) { }
@@ -33,6 +48,8 @@ export class RegisterComponent implements OnInit {
       username : 'daveDev'
     })
   }
+
+
 
 notvalid( field : string){
   return this.miForm.get(field)?.invalid && this.miForm.get(field)?.touched;

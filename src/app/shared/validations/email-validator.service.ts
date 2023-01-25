@@ -21,10 +21,5 @@ export class EmailValidatorService implements AsyncValidator{
         return (resp.length == 0) ? null : {email : true}
       })
     )
-  }
-  // registerOnValidatorChange?(fn: () => void): void {
-  //   throw new Error('Method not implemented.');
-  // }
-
-  
+  }  
 }
